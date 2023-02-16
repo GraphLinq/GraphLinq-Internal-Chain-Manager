@@ -1,0 +1,23 @@
+{
+  "name": "graphlinq-internal-chain-manager",
+  "version": "1.0.0",
+  "description": "Internal Docker GraphLinq Node Manager",
+  "main": "server.js",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/GraphLinq/GraphLinq-Internal-Chain-Manager.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/GraphLinq/GraphLinq-Internal-Chain-Manager/issues"
+  },
+  "homepage": "https://github.com/GraphLinq/GraphLinq-Internal-Chain-Manager#readme",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.18.2"
+  }
+}
