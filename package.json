@@ -4,7 +4,8 @@
   "description": "Internal Docker GraphLinq Node Manager",
   "main": "server.js",
   "scripts": {
-    "test": "test"
+    "test": "test",
+    "start": "node server.js -c testnet"
   },
   "repository": {
     "type": "git",
@@ -17,7 +18,10 @@
   },
   "homepage": "https://github.com/GraphLinq/GraphLinq-Internal-Chain-Manager#readme",
   "dependencies": {
+    "atob": "^2.1.2",
     "cors": "^2.8.5",
-    "express": "^4.18.2"
+    "ethers": "^5.1.4",
+    "express": "^4.18.2",
+    "keythereum": "^2.0.0"
   }
 }
