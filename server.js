@@ -79,6 +79,8 @@ app.pairNodes = [
 // SERVER
 ////////////////////////////////////////////
 
+console.log(environement);
+
 const PORT = process.env.PORT || environement?.PORT || 8080;
 app.listen(PORT, () => {
   console.log(`[GraphLinq Node - API] - Start Server Port ${PORT}`);
