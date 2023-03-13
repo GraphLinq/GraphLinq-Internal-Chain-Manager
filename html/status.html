@@ -87,11 +87,11 @@
                 </tr>
                 <tr style="width:100%; height: 200px;">
                     <td colspan="6" style="width:100%; height: 200px;position: relative;">
-                        <textarea disabled id="textarea-pair-nodes-ids" style="width:100%; height: 200px;"></textarea>
+                        <textarea id="textarea-pair-nodes-ids" style="width:100%; height: 200px;"></textarea>
                     </td>
                 </tr>
                 <tr>
-                    <!-- <td><button onclick="savePairNodes(document.getElementById('textarea-pair-nodes-ids').value)">Save</button></td> -->
+                    <td><button onclick="savePairNodes(document.getElementById('textarea-pair-nodes-ids').value, this)">Save</button></td>
                     <!-- <td><button onclick="applyPairNodes(document.getElementById('textarea-pair-nodes-ids').value)">Apply on Nodes</button></td> -->
                 </tr>
             </table>
@@ -410,12 +410,25 @@
                 }
             }
 
-            async function savePairNodes(value) {
+            async function savePairNodes(value, btn) {
                 console.log(value);
-            }
+                btn.disabled = true;
+                let result = await fetch('/update-pair-nodes', {
+                        method: 'POST',
+                        headers: {
+                            'Access-Code': password,
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            nodes: value.split('\n')
+                        })
+                    });
+                let jsonResult = await result.json();
 
-            async function applyPairNodes(value) {
-                console.log(value);
+                let pairNodesIds = document.getElementById('textarea-pair-nodes-ids');
+                pairNodesIds.value = jsonResult.join('\n');
+
+                btn.disabled = false;
             }
 
             async function generateKeyStore(nodeId) {

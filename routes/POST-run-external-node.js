@@ -35,7 +35,8 @@ const runMinerNode = (app, environement) => {
         ipcLogs: [],
         checkIsAlive: async () => {},
         ipcExec: async () => {},
-        stop: async () => {}
+        stop: async () => {},
+        updatePeers: async () => {}
     };
     app.post('/run-external-node', async (req, res) => {
 
@@ -120,12 +121,15 @@ const runMinerNode = (app, environement) => {
             childProcess.kill('SIGTERM');
         }
 
+        app.node2.updatePeers = async () => {
+            if (app.node1.enode != undefined) {
+                await app.node2.ipcExec(`admin.addPeer(\\"${app.node1.enode.trim()}\\")`, false);
+            }
+        }
+
         setTimeout(async () => {
             fs.rmSync(`./${randomFileName}`);
-
-            if (app?.node1?.enode != undefined) {
-                await await app.node2.ipcExec(`admin.addPeer(\\"${app.node1.enode.trim()}\\")`, false);
-            }
+            await app.node2.updatePeers();
         }, 2000);
 
         res.send('');

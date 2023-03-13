@@ -35,7 +35,8 @@ const runMinerNode = (app, environement) => {
         ipcLogs: [],
         checkIsAlive: async () => {},
         ipcExec: async () => {},
-        stop: async () => {}
+        stop: async () => {},
+        updatePeers: async () => {}
     };
     app.post('/run-miner-node', async (req, res) => {
         let cryptedPassword = req.body['password'];
@@ -127,6 +128,12 @@ const runMinerNode = (app, environement) => {
             childProcess.kill('SIGTERM');
         }
 
+        app.node1.updatePeers = async () => {
+            for (let pairEnode of app.pairNodes) {
+                await app.node1.ipcExec(`admin.addPeer(\\"${pairEnode.trim()}\\")`, false);
+            }
+        }
+
         setTimeout(async () => {
             fs.rmSync(`./${randomFileName}`);
             let enode = await app.node1.ipcExec('admin.nodeInfo.enode', false);
@@ -135,9 +142,7 @@ const runMinerNode = (app, environement) => {
                 app.node1.enode = enode.replace(/\"/gm, '');
             }
 
-            for (let pairEnode of app.pairNodes) {
-                await await app.node1.ipcExec(`admin.addPeer(\\"${pairEnode.trim()}\\")`, false);
-            }
+            await app.node1.updatePeers();
         }, 2000);
 
         res.send('');
