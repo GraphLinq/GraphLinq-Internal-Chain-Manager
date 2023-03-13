@@ -1,4 +1,4 @@
-const { exec } = require('child_process');
+const { exec, spawn } = require('child_process');
 const fs = require('fs');
 const util  = require("util");
 const execPromise = util.promisify(exec);
@@ -46,62 +46,62 @@ const runMinerNode = (app, environement) => {
 
         let randomFileName = getRandomFileName();
         fs.writeFileSync(`./${randomFileName}`, uncryptedPassword);
-        console.log('KSKSK', uncryptedPassword);
 
-        const childProcess = exec
+        const childProcess = spawn
         (
+            './bin/geth',
             [
-             './bin/geth',
              '--nousb',
              '--datadir=node1',
-             '--syncmode \'full\'',
+             '--syncmode=full',
              '--nodiscover',
-             '--nat "any"',
-             '--port 30311',
-             '--networkid 614',
+             '--nat=any',
+             '--port=30311',
+             '--networkid=614',
              '--http',
-             '--http.addr 127.0.0.1',
-             '--http.corsdomain \'*\'',
-             '--http.port 8544',
-             '--http.vhosts \'*\'',
-             '--http.api eth,net,web3',
-             '--authrpc.port 8550',
-             '--authrpc.addr "127.0.0.1"',
-             '--authrpc.vhosts \'localhost\'',
-             `--miner.etherbase ${node1Address}`,
+             '--http.addr=127.0.0.1',
+             '--http.corsdomain=*',
+             '--http.port=8544',
+             '--http.vhosts=*',
+             '--http.api=eth,net,web3',
+             '--authrpc.port=8550',
+             '--authrpc.addr=127.0.0.1',
+             '--authrpc.vhosts=localhost',
+             `--miner.etherbase=${node1Address}`,
              '--snapshot=false',
              '--allow-insecure-unlock',
-             `--unlock "${node1Address}"`,
-             `--password "${randomFileName}"`,
-             '--verbosity 3',
-             '--rpc.gascap 0',
-             '--rpc.txfeecap 100000',
-             '--txpool.pricelimit 50000000000000',
-             '--gpo.maxprice 1000000000000000000',
-             '--miner.gasprice 100000000000000',
+             `--unlock=${node1Address}`,
+             `--password=${randomFileName}`,
+             '--verbosity=3',
+             '--rpc.gascap=0',
+             '--rpc.txfeecap=100000',
+             '--txpool.pricelimit=50000000000000',
+             '--gpo.maxprice=1000000000000000000',
+             '--miner.gasprice=100000000000000',
              '--graphlinq'
-            ].join(' '),
-            ( error, stdout, stderr ) =>
-            {   
-                // When the process completes:
-                if(error)
-                {
-                    app.node1.logs.push(`${error.name}: ${error.message}`);
-                    app.node1.logs.push(`[STACKTRACE] ${error.stack}`);
-                    return ;
-                }
-            }
+            ],
+            { stdio: ['pipe', 'pipe', 'pipe', 'pipe', fs.openSync('./node1/.error.log', 'w')]}
         );
         app.node1.process = childProcess;
 
         childProcess.stdout.on('data', (data) => {
-            app.node1.logs.push(... data.split('\n'));
+            app.node1.logs.push(... data.toString().split('\n'));
             app.node1.logs = app.node1.logs.slice(-1000);
         });
         childProcess.stderr.on('data', (data) => {
-            app.node1.logs.push(... data.split('\n'));
+            app.node1.logs.push(... data.toString().split('\n'));
             app.node1.logs = app.node1.logs.slice(-1000);
         });
+
+        childProcess.on('error', (error) => {
+            app.node1.logs.push(`${error.name}: ${error.message}`);
+            app.node1.logs.push(`[STACKTRACE] ${error.stack}`);
+        });
+
+        childProcess.on('exit', (code, signal) => {
+            app.node1.logs.push(`[EXIT] ${code}`);
+        });
+
         // app.node1.controller = controller;
         app.node1.checkIsAlive = async () => {
             app.node1.status = childProcess.exitCode == undefined ? '1' : '0';
