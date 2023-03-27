@@ -1,3 +1,5 @@
+const { getPairNodeData } = require("../utils/pairnodes");
+
 const test = (app, environement) => {
     app.get('/test', async (req, res) => {
 
@@ -22,7 +24,7 @@ const test = (app, environement) => {
                 logs: app.node2?.logs ? app.node2?.logs : [],
                 ipcLogs: app.node2?.ipcLogs ? app.node2?.ipcLogs : []
             },
-            pairNodes: app.pairNodes
+            pairNodes: getPairNodeData()
         };
         res.send(data);
     });

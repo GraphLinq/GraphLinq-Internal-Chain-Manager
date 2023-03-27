@@ -3,6 +3,7 @@ const corsUtils = require('./utils/cors.js');
 const environementLoader = require('./environements/environement.js');
 const fs = require('fs');
 const path = require('path');
+const { parsePairNodes } = require('./utils/pairnodes.js');
 
 const environement = environementLoader.load();
 
@@ -20,24 +21,25 @@ app.use(function (req, res, next) {
     return ;
   }
 
-  // access
-  if (req.query['access-code'] == undefined && environement.password == undefined
+  if (!['/enodes'].includes(req.path)) { // access
+    if (req.query['access-code'] == undefined && environement.password == undefined
       && req.headers['access-code'] == undefined && environement.password == undefined) {
-    res.send('First time login please specify the password you wish to set up by providing the password in the request parameter (ex: https://localhost:8080/status?access-code=test)');
-    return ;
-  }
-  if (req.headers['access-code'] != undefined && environement.password == undefined) {
-    environement.password = req.headers['access-code'];
-  }
-  if (req.query['access-code'] != undefined && environement.password == undefined) {
-    environement.password = req.query['access-code'];
-  }
-  if (req.headers['access-code'] != environement.password
+      res.send('First time login please specify the password you wish to set up by providing the password in the request parameter (ex: https://localhost:8080/status?access-code=test)');
+      return ;
+    }
+    if (req.headers['access-code'] != undefined && environement.password == undefined) {
+      environement.password = req.headers['access-code'];
+    }
+    if (req.query['access-code'] != undefined && environement.password == undefined) {
+      environement.password = req.query['access-code'];
+    }
+    if (req.headers['access-code'] != environement.password
     && req.query['access-code'] != environement.password) {
-    res.sendStatus(502); // simulate server is offline (Bad Gateway code).
-    return ;
+      res.sendStatus(502); // simulate server is offline (Bad Gateway code).
+      return ;
+    }
+    // end access
   }
-  // end access
 
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
@@ -50,8 +52,18 @@ app.use(function (req, res, next) {
 // ROUTES
 ////////////////////////////////////////////
 
-const main = () => {
+const main = async () => {
   const fs = require('fs');
+
+  ////////////////////////////////////////////
+  // PRE-REQUIRES
+  ////////////////////////////////////////////
+
+  app.pairNodes = await parsePairNodes();
+
+  ////////////////////////////////////////////
+  // ROUTES
+  ////////////////////////////////////////////
 
   let routes = [... fs.readdirSync('./routes')]
     .filter(x => !['example.js'].includes(x)  && x.endsWith('.js'))
@@ -66,14 +78,6 @@ const main = () => {
     console.log(`[GraphLinq Node - API] - ${method} - ${path}`);
   });
 };
-
-////////////////////////////////////////////
-// PRE-REQUIRES
-////////////////////////////////////////////
-
-app.pairNodes = [
-  ... (fs.readFileSync('./pair-nodes-base.txt').toString()).split('\n')
-].filter(x => x != undefined && x != '');
 
 ////////////////////////////////////////////
 // SERVER

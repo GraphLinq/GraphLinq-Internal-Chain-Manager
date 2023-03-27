@@ -23,6 +23,7 @@
     "cors": "^2.8.5",
     "ethers": "^5.1.4",
     "express": "^4.18.2",
+    "external-ip": "^2.3.1",
     "keythereum": "^2.0.0"
   }
 }
