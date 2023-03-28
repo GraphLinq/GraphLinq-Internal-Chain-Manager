@@ -1,5 +1,5 @@
 const fs = require('fs');
-const { parsePairNodes } = require('../utils/pairnodes');
+const { parsePairNodes, getPairNodeData } = require('../utils/pairnodes');
 
 const status = (app, environement) => {
     app.post('/update-pair-nodes', async (req, res) => {
@@ -15,7 +15,7 @@ const status = (app, environement) => {
         if (app.node2 != undefined && app.node2?.status) {
             await app.node2.updatePeers();
         }
-        res.send(app.pairNodes);
+        res.send(getPairNodeData());
     });
 };
 
