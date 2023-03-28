@@ -34,8 +34,6 @@ module.exports = {
                     let response = await fileGetContent(`${x.replace(/[\/]+$/, '')}/enodes`);
                     let responseEnodes = JSON.parse(response.toString());
 
-                    console.log(responseEnodes);
-
                     for (let n of responseEnodes) {
                         if (!enodes.includes(n)) {
                             enodes.push(n);

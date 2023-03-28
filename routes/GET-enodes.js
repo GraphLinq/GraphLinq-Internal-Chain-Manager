@@ -36,7 +36,7 @@ const enodes = (app, environement) => {
 
             try {
                 const output = execSync(`./bin/bootnode -nodekeyhex ${node1Enode} -writeaddress`);
-                nodes.push(`enode://${output}@${currentAddr}:30311`);
+                nodes.push(`enode://${output.toString().trim()}@${currentAddr}:30311`);
             } catch (error) {
                 console.error(`Erreur-GET-enodes : ${error}`);
             }
@@ -45,7 +45,7 @@ const enodes = (app, environement) => {
             let node2Enode = fs.readFileSync('./node2/geth/nodekey').toString();
             try {
                 const output = execSync(`./bin/bootnode -nodekeyhex ${node2Enode} -writeaddress`);
-                nodes.push(`enode://${output}@${currentAddr}:30310`);
+                nodes.push(`enode://${output.toString().trim()}@${currentAddr}:30310`);
             } catch (error) {
                 console.error(`Erreur-GET-enodes : ${error}`);
             }
