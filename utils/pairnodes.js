@@ -30,8 +30,11 @@ module.exports = {
                 } catch (e) {}
             } else if (x.startsWith('https://') || x.startsWith('http://')) { // domain
                 try {
+                    console.log(`${x.replace(/[\/]+$/, '')}/enodes`);
                     let response = await fileGetContent(`${x.replace(/[\/]+$/, '')}/enodes`);
                     let responseEnodes = JSON.parse(response.toString());
+
+                    console.log(responseEnodes);
 
                     for (let n of responseEnodes) {
                         if (!enodes.includes(n)) {
