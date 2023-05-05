@@ -10,6 +10,10 @@ const test = (app, environement) => {
         if (app.node2) {
             await app.node2.checkIsAlive();
         }
+
+        if (app.ethStats) {
+            await app.ethStats.checkIsAlive();
+        }
         
         let data = {
             node1: {
@@ -24,11 +28,17 @@ const test = (app, environement) => {
                 logs: app.node2?.logs ? app.node2?.logs : [],
                 ipcLogs: app.node2?.ipcLogs ? app.node2?.ipcLogs : []
             },
-            pairNodes: getPairNodeData()
+            pairNodes: getPairNodeData(),
+            ethStats: {
+                status: app.ethStats?.status ? app.ethStats?.status : '0',
+                logs: app.ethStats?.logs ? app.ethStats?.logs : [],
+                nodeName: app.ethStats?.nodeName ? app.ethStats?.nodeName : '',
+                serverUrl: app.ethStats?.serverUrl ? app.ethStats?.serverUrl : '',
+            }
         };
         res.send(data);
     });
-};//const wallet = new ethers.Wallet(environement.bridgeWallet.private);
+};
 
 module.exports = {
     test

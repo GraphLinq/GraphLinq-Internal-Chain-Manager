@@ -19,7 +19,7 @@ module.exports = {
                 enodes.push(x);
             } else if (isIp(x)) { // ip address
                 try {
-                    let response = await fileGetContent(`http://${x}/enodes`);
+                    let response = await fileGetContent(`http://${x}`);
                     let responseEnodes = JSON.parse(response.toString());
 
                     for (let n of responseEnodes) {
@@ -30,8 +30,8 @@ module.exports = {
                 } catch (e) {}
             } else if (x.startsWith('https://') || x.startsWith('http://')) { // domain
                 try {
-                    console.log(`${x.replace(/[\/]+$/, '')}/enodes`);
-                    let response = await fileGetContent(`${x.replace(/[\/]+$/, '')}/enodes`);
+                    console.log(`${x.replace(/[\/]+$/, '')}`);
+                    let response = await fileGetContent(`${x.replace(/[\/]+$/, '')}`);
                     let responseEnodes = JSON.parse(response.toString());
 
                     for (let n of responseEnodes) {
