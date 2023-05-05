@@ -23,7 +23,7 @@ module.exports = {
                     let responseEnodes = JSON.parse(response.toString());
 
                     for (let n of responseEnodes) {
-                        if (!enodes.includes(n)) {
+                        if (!enodes.includes(n) && n.startsWith('enode://')) {
                             enodes.push(n);
                         }
                     }
@@ -35,7 +35,7 @@ module.exports = {
                     let responseEnodes = JSON.parse(response.toString());
 
                     for (let n of responseEnodes) {
-                        if (!enodes.includes(n)) {
+                        if (!enodes.includes(n) && n.startsWith('enode://')) {
                             enodes.push(n);
                         }
                     }

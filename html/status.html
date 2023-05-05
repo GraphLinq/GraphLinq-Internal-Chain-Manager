@@ -300,7 +300,7 @@
                     window.localStorage.setItem('ethstats-node-name', inputEthStatsNodeName.value);
                 }
 
-                if (jsonData.ethStats.nodeName != undefined && inputEthStatsNodeName.value == '') {
+                if (document.activeElement !== inputEthStatsNodeName && jsonData.ethStats.nodeName != undefined && inputEthStatsNodeName.value == jsonData.ethStats.nodeName) {
                     inputEthStatsNodeName.value = jsonData.ethStats.nodeName;
                 }
 
