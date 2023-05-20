@@ -1,7 +1,7 @@
 import Primus from 'primus';
 import primusResponder from 'primus-responder';
 import EventEmitter from 'events';
-import client from './client/index.mjs';
+import client from './Client/index.mjs';
 
 const PrimusSocket = Primus.createSocket({
   transformer: 'websockets',
