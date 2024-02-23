@@ -42,7 +42,7 @@ const runMinerNode = (app, environement) => {
         let cryptedPassword = req.body['password'];
         let uncryptedPassword = unrot13(atob(cryptedPassword));
 
-        let node1Address = (fs.readFileSync('./node1/id').toString()).trim();
+        let node1Address = (fs.readFileSync('./nodes/node1/id').toString()).trim();
 
         let randomFileName = getRandomFileName();
         fs.writeFileSync(`./${randomFileName}`, uncryptedPassword);
@@ -52,7 +52,7 @@ const runMinerNode = (app, environement) => {
             './bin/geth',
             [
              '--nousb',
-             '--datadir=node1',
+             '--datadir=nodes/node1',
              '--syncmode=full',
              '--nodiscover',
              '--nat=any',
@@ -80,7 +80,7 @@ const runMinerNode = (app, environement) => {
              '--miner.gasprice=100000000000000',
              '--graphlinq'
             ],
-            { stdio: ['pipe', 'pipe', 'pipe', 'pipe', fs.openSync('./node1/.error.log', 'w')]}
+            { stdio: ['pipe', 'pipe', 'pipe', 'pipe', fs.openSync('./nodes/node1/.error.log', 'w')]}
         );
         app.node1.process = childProcess;
 
@@ -116,7 +116,7 @@ const runMinerNode = (app, environement) => {
             if (!cmd || cmd == '') {
                 return ;
             }
-            let logs = await execWrapper('./bin/geth attach --exec "' + cmd + '" node1/geth.ipc');
+            let logs = await execWrapper('./bin/geth attach --exec "' + cmd + '" nodes/node1/geth.ipc');
             if (addLog) {
                 app.node1.ipcLogs.push(... logs.split('\n'));
                 app.node1.ipcLogs = app.node1.ipcLogs.slice(-1000);

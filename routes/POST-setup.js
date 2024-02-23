@@ -25,19 +25,30 @@ const setup = (app, environement) => {
             let keyStoreNode1 = req.body['keyStoreNode1'];
             let keyStoreNode2 = await generateKeyStoreNode2();
 
-            fs.mkdirSync('./node1');
-            fs.mkdirSync('./node2');
-            fs.mkdirSync('./node1/keystore');
-            fs.mkdirSync('./node2/keystore');
+            if (!fs.existsSync('./nodes')) {
+                fs.mkdirSync('./nodes');
+            }
+            if (!fs.existsSync('./nodes/node1')) {
+                fs.mkdirSync('./nodes/node1');
+            }
+            if (!fs.existsSync('./nodes/node2')) {
+                fs.mkdirSync('./nodes/node2');
+            }
+            if (!fs.existsSync('./nodes/node1/keystore')) {
+                fs.mkdirSync('./nodes/node1/keystore');
+            }
+            if (!fs.existsSync('./nodes/node2/keystore')) {
+                fs.mkdirSync('./nodes/node2/keystore');
+            }
 
             let jsonKeyStoreNode1 = JSON.parse(keyStoreNode1);
             let jsonKeyStoreNode2 = JSON.parse(keyStoreNode2);
 
-            fs.writeFileSync(`./node1/id`, jsonKeyStoreNode1.address);
-            fs.writeFileSync(`./node2/id`, jsonKeyStoreNode2.address);
+            fs.writeFileSync(`./nodes/node1/id`, jsonKeyStoreNode1.address);
+            fs.writeFileSync(`./nodes/node2/id`, jsonKeyStoreNode2.address);
 
-            fs.writeFileSync(`./node1/keystore/UTC--${(new Date()).toISOString()}--${jsonKeyStoreNode1.address}`, keyStoreNode1);
-            fs.writeFileSync(`./node2/keystore/UTC--${(new Date()).toISOString()}--${jsonKeyStoreNode2.address}`, keyStoreNode2);
+            fs.writeFileSync(`./nodes/node1/keystore/UTC--${(new Date()).toISOString()}--${jsonKeyStoreNode1.address}`, keyStoreNode1);
+            fs.writeFileSync(`./nodes/node2/keystore/UTC--${(new Date()).toISOString()}--${jsonKeyStoreNode2.address}`, keyStoreNode2);
 
             res.send({
                 status: 'ready'

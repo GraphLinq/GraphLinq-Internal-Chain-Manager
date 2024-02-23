@@ -31,8 +31,8 @@ const enodes = (app, environement) => {
 
         let nodes = [];
 
-        if (fs.existsSync('./node1/geth/nodekey')) {
-            let node1Enode = fs.readFileSync('./node1/geth/nodekey').toString();
+        if (fs.existsSync('./nodes/node1/geth/nodekey')) {
+            let node1Enode = fs.readFileSync('./nodes/node1/geth/nodekey').toString();
 
             try {
                 const output = execSync(`./bin/bootnode -nodekeyhex ${node1Enode} -writeaddress`);
@@ -41,8 +41,8 @@ const enodes = (app, environement) => {
                 console.error(`Erreur-GET-enodes : ${error}`);
             }
         }
-        if (fs.existsSync('./node2/geth/nodekey')) {
-            let node2Enode = fs.readFileSync('./node2/geth/nodekey').toString();
+        if (fs.existsSync('./nodes/node2/geth/nodekey')) {
+            let node2Enode = fs.readFileSync('./nodes/node2/geth/nodekey').toString();
             try {
                 const output = execSync(`./bin/bootnode -nodekeyhex ${node2Enode} -writeaddress`);
                 nodes.push(`enode://${output.toString().trim()}@${currentAddr}:30310`);

@@ -16,13 +16,13 @@ const status = (app, environement) => {
 
         htmlContent = htmlContent.replace(/\$status/, 'ONLINE');
 
-        let setup = fs.existsSync('./node1');
+        let setup = fs.existsSync('./nodes/node1');
         htmlContent = htmlContent.replace(/\$setup/, setup ? 'true' : 'false');
 
         if (setup) {
-            let node1Address = fs.readFileSync('./node1/id').toString();
+            let node1Address = fs.readFileSync('./nodes/node1/id').toString();
             htmlContent = htmlContent.replace(/\$node1Address/, node1Address);
-            let node2Address = fs.readFileSync('./node2/id').toString();
+            let node2Address = fs.readFileSync('./nodes/node2/id').toString();
             htmlContent = htmlContent.replace(/\$node2Address/, node2Address);
         }
 

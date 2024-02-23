@@ -36,7 +36,7 @@ const runEthStats = (app, environement) => {
              `--server-url=${app.ethStats.serverUrl}`,
              '--client-url=http://127.0.0.1:8544'
             ],
-            { stdio: ['pipe', 'pipe', 'pipe', 'pipe', fs.openSync('./node1/.error.log', 'w')]}
+            { stdio: ['pipe', 'pipe', 'pipe', 'pipe', fs.openSync('./nodes/node1/.error.log', 'w')]}
         );
         app.ethStats.process = childProcess;
 

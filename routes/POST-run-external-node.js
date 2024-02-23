@@ -40,7 +40,7 @@ const runMinerNode = (app, environement) => {
     };
     app.post('/run-external-node', async (req, res) => {
 
-        let node2Address = (fs.readFileSync('./node2/id').toString()).trim();
+        let node2Address = (fs.readFileSync('./nodes/node2/id').toString()).trim();
 
         let randomFileName = getRandomFileName();
         fs.writeFileSync(`./${randomFileName}`, 'password-text-default');
@@ -50,7 +50,7 @@ const runMinerNode = (app, environement) => {
             './bin/geth',
             [
              '--nousb',
-             '--datadir=node2',
+             '--datadir=nodes/node2',
              '--syncmode=full',
              '--nodiscover',
              '--nat=any',
@@ -79,7 +79,7 @@ const runMinerNode = (app, environement) => {
              '--miner.gasprice=100000000000000',
              '--graphlinq'
             ],
-            { stdio: ['pipe', 'pipe', 'pipe', 'pipe', fs.openSync('./node2/.error.log', 'w')]}
+            { stdio: ['pipe', 'pipe', 'pipe', 'pipe', fs.openSync('./nodes/node2/.error.log', 'w')]}
         );
         app.node2.process = childProcess;
 
@@ -109,7 +109,7 @@ const runMinerNode = (app, environement) => {
             if (!cmd || cmd == '') {
                 return ;
             }
-            let logs = await execWrapper('./bin/geth attach --exec "' + cmd + '" node2/geth.ipc');
+            let logs = await execWrapper('./bin/geth attach --exec "' + cmd + '" nodes/node2/geth.ipc');
             if (addLog) {
                 app.node2.ipcLogs.push(... logs.split('\n'));
                 app.node2.ipcLogs = app.node2.ipcLogs.slice(-1000);
