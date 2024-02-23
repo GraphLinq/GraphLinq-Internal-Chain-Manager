@@ -133,7 +133,7 @@ const runMinerNode = (app, environement) => {
         setTimeout(async () => {
             fs.rmSync(`./${randomFileName}`);
             await app.node2.updatePeers();
-        }, 2000);
+        }, 10000);
 
         res.send('');
     });

@@ -143,7 +143,7 @@ const runMinerNode = (app, environement) => {
             }
 
             await app.node1.updatePeers();
-        }, 2000);
+        }, 10000);
 
         res.send('');
     });
