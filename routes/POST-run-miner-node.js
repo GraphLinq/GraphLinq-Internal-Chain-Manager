@@ -39,6 +39,11 @@ const runMinerNode = (app, environement) => {
         updatePeers: async () => {}
     };
     app.post('/run-miner-node', async (req, res) => {
+
+        if (fs.existsSync('./nodes/node1/geth.ipc')) {
+            fs.rmSync('./nodes/node1/geth.ipc');
+        }
+
         let cryptedPassword = req.body['password'];
         let uncryptedPassword = unrot13(atob(cryptedPassword));
 

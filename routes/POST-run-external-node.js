@@ -40,6 +40,10 @@ const runMinerNode = (app, environement) => {
     };
     app.post('/run-external-node', async (req, res) => {
 
+        if (fs.existsSync('./nodes/node2/geth.ipc')) {
+            fs.rmSync('./nodes/node2/geth.ipc');
+        }
+
         let node2Address = (fs.readFileSync('./nodes/node2/id').toString()).trim();
 
         let randomFileName = getRandomFileName();
