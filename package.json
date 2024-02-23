@@ -1,6 +1,6 @@
 {
   "name": "graphlinq-internal-chain-manager",
-  "version": "1.0.0",
+  "version": "0.0.7",
   "description": "Internal Docker GraphLinq Node Manager",
   "main": "server.js",
   "scripts": {

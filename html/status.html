@@ -2,34 +2,70 @@
     <head>
         <title>GLQ Nodes</title>
         <link rel="icon" type="image/png" href="favicon.png">
+        <link href="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.css" rel="stylesheet">
+        <script src="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.js"></script>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     </head>
     <body>
+        <style>
+            .mdc-button {
+                width: 100%;
+            }
+            body {
+                background-color: #182231;
+                color: #ffffff;
+                font-family: helveticaneue,Helvetica,Arial,sans-serif;
+            }
+            input {
+                background-color: #182231;
+                color: #ffffff;
+                border: 1px solid #000000;
+                padding: 5px;
+                /* width: 100%; */
+            }
+            textarea {
+                background-color: #182231;
+                color: #ffffff;
+                border: 1px solid #000000;
+                padding: 5px;
+                /* width: 100%; */
+                /* height: 100%; */
+                resize: none;
+            }
+            .customColor {
+                color: #2774ff!important;
+                user-select: all;
+                cursor: text;
+                text-align: center;
+            }
+        </style>
         <div id="PageStatus" style="display: none;">
             <table style="width:100%;">
                 <!-- Internal Node -->
 
                 <tr>
-                    <td>GLQ NODE MANAGER v0.0.4</td>
+                    <td colspan="6" style="color:white;text-align: center;font-size: x-small;"><img height="50px" src="logo.png"/> <span>v0.0.7</span></td>
                 </tr>
 
                 <tr>
                     <td>INTERNAL NODE STATUS</td>
-                    <td id="node1-status"></td>
+                    <td id="node1-status" class="mdc-button mdc-button--outlined customColor"></td>
                     <td colspan="4"></td>
                 </tr>
                 <tr>
                     <td>Node</td>
-                    <td><button id="node1-button-start" onclick="startNode1(this)">Start</button></td>
-                    <td><button id="node1-button-stop" onclick="stopNode1(this)">Stop</button></td>
+                    <td><button id="node1-button-start" class="mdc-button mdc-button--raised" onclick="startNode1(this)"><span class="mdc-button__label">Start</span></button></td>
+                    <td><button id="node1-button-stop" class="mdc-button mdc-button--raised" onclick="stopNode1(this)"><span class="mdc-button__label">Stop</span></button></td>
                     <td style="text-align: right;margin-right:10px;">Node Wallet Password:</td>
                     <td><input id="node1-keystore-password" type="password" style="width:100%"></td>
                 </tr>
                 <tr>
                     <td>EthStats</td>
-                    <td><button id="ethStats-button-start" onclick="startEthStats(this)">Start</button></td>
-                    <td><button id="ethStats-button-stop" onclick="stopEthStats(this)">Stop</button></td>
+                    <td><button id="ethStats-button-start" class="mdc-button mdc-button--raised" onclick="startEthStats(this)"><span class="mdc-button__label">Start</span></button></td>
+                    <td><button id="ethStats-button-stop" class="mdc-button mdc-button--raised" onclick="stopEthStats(this)"><span class="mdc-button__label">Stop</span></button></td>
                     <td style="text-align: right;margin-right:10px;">EthStats Server Url:</td>
-                    <td><input id="ethStats-server-url" type="text" style="width:100%"></td>
+                    <td>
+                        <input id="ethStats-server-url" type="text" style="width:100%"></td>
                     <td>
                         <div style="display: grid; grid-template-columns: 30% 70%;">
                             <div style="text-align: right;margin-right:5px;">Node Name:</div>
@@ -39,9 +75,13 @@
                 </tr>
                 <tr>
                     <td>Mining</td>
-                    <td><button id="node1-button-miner-start" onclick="startMinerNode1(this)">Start Miner</button></td>
-                    <td><button id="node1-button-miner-stop" onclick="stopMinerNode1(this)">Stop Miner</button></td>
+                    <td><button id="node1-button-miner-start" class="mdc-button mdc-button--raised" onclick="startMinerNode1(this)"><span class="mdc-button__label">Start Miner</span></button></td>
+                    <td><button id="node1-button-miner-stop" class="mdc-button mdc-button--raised" onclick="stopMinerNode1(this)"><span class="mdc-button__label">Stop Miner</span></button></td>
                     <td colspan="3"></td>
+                </tr>
+                <tr>
+                    <td>Address</td>
+                    <td class="customColor">$node1Address</td>
                 </tr>
                 <tr>
                     <td colspan="3">Node Logs</td>
@@ -49,7 +89,6 @@
                 </tr>
                 <tr style="width:100%; height: 200px;">
                     <td colspan="3" style="width:50%; height: 200px;position: relative;">
-                        <div style="position:absolute;left:5px;top:0;background-color: black;color:white">Node $node1Address: <span id="node1Status"></span></div>
                         <textarea id="node1-logs" style="width:100%; height: 200px;" readonly></textarea>
                     </td>
                     <td colspan="3" style="width:50%; height: 200px;">
@@ -62,22 +101,26 @@
 
                 <tr>
                     <td>EXTERNAL NODE STATUS</td>
-                    <td id="node2-status"></td>
+                    <td id="node2-status" class="mdc-button mdc-button--outlined customColor"></td>
                     <td colspan="4"></td>
                 </tr>
                 <tr>
                     <td colspan="1">Node</td>
-                    <td colspan="1"><button id="node2-button-start" onclick="startNode2(this)">Start</button></td>
-                    <td colspan="1"><button id="node2-button-stop" onclick="stopNode2(this)">Stop</button></td>
+                    <td colspan="1"><button id="node2-button-start" class="mdc-button mdc-button--raised" onclick="startNode2(this)">Start</button></td>
+                    <td colspan="1"><button id="node2-button-stop" class="mdc-button mdc-button--raised" onclick="stopNode2(this)">Stop</button></td>
                     <td colspan="3"></td>
                 </tr>
                 <tr>
                     <td>RPC EXPOSED PORT</td>
-                    <td>8551</td>
+                    <td class="mdc-button mdc-button--outlined customColor">8551</td>
                 </tr>
                 <tr>
                     <td>HTTP EXPOSED PORT</td>
-                    <td>8545</td>
+                    <td class="mdc-button mdc-button--outlined customColor">8545</td>
+                </tr>
+                <tr>
+                    <td>Address</td>
+                    <td class="customColor">$node2Address</td>
                 </tr>
                 <tr>
                     <td colspan="3">External Node Logs</td>
@@ -85,7 +128,6 @@
                 </tr>
                 <tr style="width:100%; height: 200px;">
                     <td colspan="3" style="width:50%; height: 200px;position: relative;">
-                        <div style="position:absolute;left:5px;top:0;background-color: black;color:white">External Node $node2Address:</div>
                         <textarea id="node2-logs" style="width:100%; height: 200px;" readonly></textarea>
                     </td>
                     <td colspan="3" style="width:50%; height: 200px;">
@@ -104,7 +146,7 @@
                     </td>
                 </tr>
                 <tr>
-                    <td><button onclick="savePairNodes(document.getElementById('textarea-pair-nodes-ids').value, this)">Save</button></td>
+                    <td><button class="mdc-button mdc-button--raised" onclick="savePairNodes(document.getElementById('textarea-pair-nodes-ids').value, this)">Save</button></td>
                     <!-- <td><button onclick="applyPairNodes(document.getElementById('textarea-pair-nodes-ids').value)">Apply on Nodes</button></td> -->
                 </tr>
             </table>

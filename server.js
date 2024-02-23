@@ -20,6 +20,11 @@ app.use(function (req, res, next) {
     res.sendFile('favicon.png', {root: templates});
     return ;
   }
+  if (req.path == '/logo.png') {
+    let templates = path.join(process.cwd(), 'html');
+    res.sendFile('logo.png', {root: templates});
+    return ;
+  }
 
   if (!['/enodes'].includes(req.path)) { // access
     if (req.query['access-code'] == undefined && environement.password == undefined
