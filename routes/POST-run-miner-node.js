@@ -78,11 +78,10 @@ const runMinerNode = (app, environement) => {
              `--unlock=${node1Address}`,
              `--password=${randomFileName}`,
              '--verbosity=3',
-             '--rpc.gascap=0',
              '--rpc.txfeecap=100000',
-             '--txpool.pricelimit=50000000000000',
+             '--txpool.pricelimit=100',
              '--gpo.maxprice=1000000000000000000',
-             '--miner.gasprice=100000000000000',
+             '--miner.gasprice=100000000',
              '--graphlinq'
             ],
             { stdio: ['pipe', 'pipe', 'pipe', 'pipe', fs.openSync('./nodes/node1/.error.log', 'w')]}
