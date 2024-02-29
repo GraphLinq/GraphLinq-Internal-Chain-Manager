@@ -6,6 +6,13 @@ const isIp = (str) => {
     return ipRegex.test(str);
 }
 
+const formatEnode = (str, port) => {
+    if (!str.startsWith('enode://')) {
+        return undefined;
+    }
+    return `enode:${x.enode.split(':')[1]}:${port}`;
+}
+
 module.exports = {
     parsePairNodes: async () => {
         let nodes = [
@@ -23,8 +30,13 @@ module.exports = {
                     let responseEnodes = JSON.parse(response.toString());
 
                     for (let n of responseEnodes) {
-                        if (!enodes.includes(n) && n.startsWith('enode://')) {
-                            enodes.push(n);
+                        const externalNode = formatEnode(n, 30310);
+                        const internalNode = formatEnode(n, 30311);
+                        if (externalNode !== undefined && !enodes.includes(externalNode)) {
+                            enodes.push(externalNode);
+                        }
+                        if (internalNode !== undefined && !enodes.includes(internalNode)) {
+                            enodes.push(internalNode);
                         }
                     }
                 } catch (e) {}
@@ -35,8 +47,13 @@ module.exports = {
                     let responseEnodes = JSON.parse(response.toString());
 
                     for (let n of responseEnodes) {
-                        if (!enodes.includes(n) && n.startsWith('enode://')) {
-                            enodes.push(n);
+                        const externalNode = formatEnode(n, 30310);
+                        const internalNode = formatEnode(n, 30311);
+                        if (externalNode !== undefined && !enodes.includes(externalNode)) {
+                            enodes.push(externalNode);
+                        }
+                        if (internalNode !== undefined && !enodes.includes(internalNode)) {
+                            enodes.push(internalNode);
                         }
                     }
                 } catch (e) {}
